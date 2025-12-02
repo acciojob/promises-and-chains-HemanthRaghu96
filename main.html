@@ -1,13 +1,56 @@
 <!DOCTYPE html>
-
 <html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+<head>
+  <title>Voting Eligibility Check</title>
+</head>
+<body>
 
-  <body>
-    <!-- write the body here -->
+  <h2>Check Voting Eligibility</h2>
 
-    <script type="text/javascript" src="./script.js"></script>
-  </body>
+  <form id="voteForm">
+    <label>Name:</label>
+    <input type="text" id="name" /><br><br>
+
+    <label>Age:</label>
+    <input type="number" id="age" /><br><br>
+
+    <button type="submit" id="btn">Submit</button>
+  </form>
+
+  <script>
+    let myname = document.getElementById("name");
+    let age = document.getElementById("age");
+    let form = document.getElementById("voteForm");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault(); // prevent page reload
+
+      // Validation
+      if (myname.value === "" || age.value === "") {
+        alert("Please enter valid details.");
+        return;
+      }
+
+      // Promise to check age after 4 seconds
+      const checkAge = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (Number(age.value) > 18) {
+            resolve();
+          } else {
+            reject();
+          }
+        }, 4000);
+      });
+
+      checkAge
+        .then(() => {
+          alert(`Welcome, ${myname.value}. You can vote.`);
+        })
+        .catch(() => {
+          alert(`Oh sorry ${myname.value}. You aren't old enough.`);
+        });
+    });
+  </script>
+
+</body>
 </html>
